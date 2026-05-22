@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>營養計算小學堂 ｜ BMI・標準體重・蛋白質・熱量</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbf6ec;
+    --paper:#fffdf8;
+    --ink:#2c2a24;
+    --ink-soft:#6b665b;
+    --line:#e8ddc8;
+    --green:#3f7a52;
+    --green-deep:#2c5a3b;
+    --green-soft:#e6f0e6;
+    --amber:#dd8a2f;
+    --amber-soft:#fbeed6;
+    --blue:#3f7fb0;
+    --blue-soft:#e2eef6;
+    --red:#c0512f;
+    --red-soft:#f7e2da;
+    --shadow:0 10px 30px -12px rgba(60,45,20,.28);
+    --shadow-sm:0 4px 14px -8px rgba(60,45,20,.30);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans TC",system-ui,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 12% 8%, rgba(63,122,82,.07), transparent 40%),
+      radial-gradient(circle at 88% 92%, rgba(221,138,47,.08), transparent 42%),
+      var(--bg);
+    line-height:1.7;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 60px}
+
+  /* ---------- Header ---------- */
+  header.hero{
+    text-align:center;
+    padding:26px 20px 30px;
+    position:relative;
+  }
+  .hero .org{
+    display:inline-flex;align-items:center;gap:13px;
+    background:#fff;border:1px solid var(--line);
+    padding:9px 18px 9px 12px;border-radius:16px;box-shadow:var(--shadow-sm);
+    margin-bottom:18px;
+  }
+  .hero .org-logo{height:46px;width:auto;display:block}
+  .hero .org-name{display:flex;flex-direction:column;text-align:left;line-height:1.2}
+  .hero .org-name .org-l1{font-weight:700;font-size:1rem;color:var(--green-deep)}
+  .hero .org-name .org-l2{font-weight:500;font-size:.82rem;color:var(--ink-soft)}
+  .hero .badge{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--green-soft);color:var(--green-deep);
+    font-weight:700;font-size:.82rem;letter-spacing:.04em;
+    padding:6px 14px;border-radius:999px;margin-bottom:16px;
+  }
+  .hero h1{
+    font-family:"Noto Serif TC",serif;
+    font-weight:900;
+    font-size:clamp(1.9rem,6vw,2.7rem);
+    color:var(--green-deep);
+    letter-spacing:.02em;
+    line-height:1.2;
+  }
+  .hero h1 .dot{color:var(--amber)}
+  .hero p.sub{
+    margin-top:10px;color:var(--ink-soft);font-size:1rem;font-weight:500;
+  }
+  .hero .rule{
+    width:64px;height:4px;border-radius:4px;
+    background:linear-gradient(90deg,var(--green),var(--amber));
+    margin:18px auto 0;
+  }
+
+  /* ---------- Card ---------- */
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    padding:26px 24px;
+    margin-bottom:22px;
+  }
+  .card-title{
+    font-family:"Noto Serif TC",serif;
+    font-weight:700;font-size:1.2rem;color:var(--green-deep);
+    display:flex;align-items:center;gap:10px;margin-bottom:4px;
+  }
+  .card-title .ico{
+    width:34px;height:34px;flex:none;border-radius:10px;
+    background:var(--green-soft);color:var(--green-deep);
+    display:grid;place-items:center;
+  }
+  .card-title .ico svg{width:19px;height:19px}
+  .card-desc{color:var(--ink-soft);font-size:.92rem;margin-bottom:18px}
+
+  /* ---------- Form ---------- */
+  .seg{
+    display:flex;gap:8px;background:#f1ead9;padding:6px;border-radius:14px;
+  }
+  .seg button{
+    flex:1;border:none;background:transparent;cursor:pointer;
+    font-family:inherit;font-size:1.02rem;font-weight:700;color:var(--ink-soft);
+    padding:12px 8px;border-radius:10px;transition:.2s;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .seg button .sx{width:20px;height:20px}
+  .seg button.on{background:#fff;color:var(--green-deep);box-shadow:var(--shadow-sm)}
+  .seg button.on.f{color:var(--amber)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+  .field label{display:block;font-weight:700;font-size:.95rem;margin-bottom:7px}
+  .field label span{color:var(--ink-soft);font-weight:500;font-size:.85rem}
+  .input-unit{position:relative}
+  .input-unit input{
+    width:100%;font-family:inherit;font-size:1.4rem;font-weight:700;color:var(--ink);
+    padding:14px 52px 14px 16px;border:2px solid var(--line);border-radius:14px;
+    background:#fff;transition:.2s;
+  }
+  .input-unit input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--green-soft)}
+  .input-unit .u{
+    position:absolute;right:16px;top:50%;transform:translateY(-50%);
+    color:var(--ink-soft);font-weight:700;font-size:.95rem;
+  }
+  .field.full{grid-column:1/-1}
+  select{
+    width:100%;font-family:inherit;font-size:1.05rem;font-weight:600;color:var(--ink);
+    padding:14px 16px;border:2px solid var(--line);border-radius:14px;background:#fff;
+    appearance:none;cursor:pointer;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='%236b665b' viewBox='0 0 16 16'><path d='M4 6l4 4 4-4'/></svg>");
+    background-repeat:no-repeat;background-position:right 16px center;
+  }
+  select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--green-soft)}
+  .act-hint{font-size:.85rem;color:var(--ink-soft);margin-top:8px;min-height:1.2em}
+
+  .btn{
+    width:100%;margin-top:22px;border:none;cursor:pointer;
+    font-family:"Noto Serif TC",serif;font-weight:700;font-size:1.18rem;color:#fff;
+    padding:16px;border-radius:16px;
+    background:linear-gradient(135deg,var(--green),var(--green-deep));
+    box-shadow:0 12px 24px -10px rgba(44,90,59,.7);transition:.18s;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(0)}
+  .err{color:var(--red);font-weight:600;font-size:.9rem;margin-top:10px;text-align:center;display:none}
+
+  /* ---------- Results ---------- */
+  #results{display:none}
+  #results.show{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .metric{
+    background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 16px;
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .metric .k{font-size:.86rem;color:var(--ink-soft);font-weight:700;letter-spacing:.02em}
+  .metric .v{font-family:"Noto Serif TC",serif;font-weight:900;line-height:1.1;margin-top:6px}
+  .metric .v .big{font-size:2.3rem}
+  .metric .v .un{font-size:.95rem;color:var(--ink-soft);font-weight:700;margin-left:3px}
+  .metric .note{font-size:.8rem;color:var(--ink-soft);margin-top:4px}
+
+  .bmi-badge{display:inline-block;margin-top:8px;padding:4px 14px;border-radius:999px;font-weight:700;font-size:.95rem}
+  .b-under{background:var(--blue-soft);color:var(--blue)}
+  .b-normal{background:var(--green-soft);color:var(--green-deep)}
+  .b-over{background:var(--amber-soft);color:#b06a16}
+  .b-obese{background:var(--red-soft);color:var(--red)}
+  .metric.lead .v .big{color:var(--green-deep)}
+
+  /* ---------- Plate / portions ---------- */
+  .plate-head{
+    text-align:center;margin:6px 0 18px;
+  }
+  .plate-head .kcal{
+    font-family:"Noto Serif TC",serif;font-weight:900;font-size:2rem;color:var(--amber);
+  }
+  .plate-head .lbl{color:var(--ink-soft);font-size:.92rem}
+  .foods{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .food{
+    border-radius:18px;padding:16px 10px 14px;text-align:center;border:1px solid var(--line);
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .food .nm{font-weight:700;font-size:.95rem;margin-top:10px;color:var(--ink)}
+  .food .amount{margin-top:2px}
+  .food .am{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.7rem;color:var(--green-deep)}
+  .food .un{font-size:.82rem;color:var(--ink-soft);font-weight:700;margin-left:2px}
+  .food .ref{font-size:.74rem;line-height:1.45;color:var(--ink-soft);margin-top:8px}
+  .f-grain{background:#fbf2dd}
+  .f-prot{background:#f7e6e0}
+  .f-veg{background:#e7f1e3}
+  .f-fruit{background:#f6e6ee}
+
+  /* 份量插圖列 */
+  .count-icons{
+    display:flex;flex-wrap:wrap;gap:4px;justify-content:center;align-items:center;
+    min-height:64px;max-width:150px;
+  }
+  .count-icons .ci{width:30px;height:30px;display:inline-block;line-height:0;animation:pop .35s ease both}
+  .count-icons .ci svg{width:30px;height:30px;display:block}
+  .count-icons .ci.half{width:15px;overflow:hidden}
+  .count-icons .ci.half svg{width:30px}
+  @keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+  .plate-foot{text-align:center;color:var(--ink-soft);font-size:.84rem;margin-top:16px;line-height:1.6}
+  .plate-foot b{color:var(--green-deep)}
+
+  /* ===== 實物盛盤圖 ===== */
+  .plate2-wrap{display:flex;justify-content:center;margin:10px 0 6px}
+  .plate2{
+    position:relative;width:min(360px,82vw);aspect-ratio:1;border-radius:50%;
+    background:conic-gradient(from 0deg,
+      #f7e6e0 0deg 90deg,   /* TR 豆魚蛋肉 */
+      #f6e6ee 90deg 180deg, /* BR 水果 */
+      #e7f1e3 180deg 270deg,/* BL 蔬菜 */
+      #fbf2dd 270deg 360deg /* TL 全榖 */);
+    border:9px solid #fff;
+    box-shadow:0 16px 34px -14px rgba(60,45,20,.45), inset 0 0 0 2px #efe6d0;
+  }
+  .quad{position:absolute;width:50%;height:50%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:3px;box-sizing:border-box;text-align:center}
+  .quad .qicons{display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-content:center;max-width:90px}
+  .quad .qicons .ci{width:18px;height:18px;display:inline-block;line-height:0;animation:pop .35s ease both}
+  .quad .qicons .ci svg{width:18px;height:18px;display:block}
+  .quad .qicons .ci.half{width:9px;overflow:hidden}
+  .quad .qicons .ci.half svg{width:18px}
+  .qlabel{line-height:1.1}
+  .qlabel .qn{display:block;font-weight:700;font-size:.74rem;color:var(--ink)}
+  .qlabel .qc{font-family:"Noto Serif TC",serif;font-weight:900;font-size:.92rem;color:var(--ink)}
+  .qlabel .qc b{font-size:1.5rem;color:var(--green-deep)}
+  .q-grain{top:0;left:0;padding:26px 6px 6px 28px}
+  .q-prot {top:0;right:0;padding:26px 28px 6px 6px}
+  .q-veg  {bottom:0;left:0;padding:6px 6px 26px 28px}
+  .q-fruit{bottom:0;right:0;padding:6px 28px 26px 6px}
+  .plate2-line{position:absolute;background:rgba(255,255,255,.9);border-radius:3px}
+  .plate2-line.h{top:50%;left:7%;right:7%;height:3px;transform:translateY(-50%)}
+  .plate2-line.v{left:50%;top:7%;bottom:7%;width:3px;transform:translateX(-50%)}
+  .plate2-center{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:54px;height:54px;border-radius:50%;background:#fffdf8;
+    box-shadow:0 2px 8px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;
+    text-align:center;font-family:"Noto Serif TC",serif;font-weight:900;font-size:.78rem;
+    color:var(--green-deep);line-height:1.18;z-index:2;
+  }
+  .plate-legend2{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-top:18px}
+  .pl2{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--ink)}
+  .pl2 .pd{width:13px;height:13px;border-radius:5px;flex:none}
+  .pl2 b{color:var(--ink);white-space:pre;letter-spacing:.05em}
+  .pl2 .pr{color:var(--ink-soft);font-size:.8rem;margin-left:auto;text-align:right}
+
+  /* ---------- BMI 刻度尺 ---------- */
+  .gauge-wrap{margin:22px 2px 6px}
+  .gauge-zones{display:flex;font-size:.72rem;font-weight:700;color:var(--ink-soft);margin-bottom:6px}
+  .gauge-zones span{text-align:center}
+  .gauge-track{
+    position:relative;height:22px;border-radius:999px;overflow:visible;
+    background:linear-gradient(90deg,
+      var(--blue) 0%, var(--blue) 14%,
+      var(--green) 14%, var(--green) 36%,
+      var(--amber) 36%, var(--amber) 48%,
+      #d98a4a 48%, #d98a4a 60%,
+      #c0512f 60%, #c0512f 80%,
+      #8f2e1a 80%, #8f2e1a 100%);
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.12);
+  }
+  .gauge-marker{
+    position:absolute;top:-6px;transform:translateX(-50%);
+    transition:left 1s cubic-bezier(.2,.8,.2,1);left:0;
+  }
+  .gauge-marker .bub{
+    position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:#fff;font-weight:900;font-family:"Noto Serif TC",serif;
+    font-size:.95rem;padding:3px 11px;border-radius:9px;white-space:nowrap;
+  }
+  .gauge-marker .bub::after{
+    content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);
+    border:6px solid transparent;border-top-color:var(--ink);
+  }
+  .gauge-marker .pin{
+    width:6px;height:34px;background:var(--ink);border-radius:4px;margin:0 auto;
+    box-shadow:0 0 0 3px #fff;
+  }
+  .gauge-ticks{position:relative;height:18px;margin-top:4px;font-size:.72rem;color:var(--ink-soft)}
+  .gauge-ticks span{position:absolute;transform:translateX(-50%);font-weight:600}
+
+  /* ---------- 體重對照 ---------- */
+  .wc{margin-top:18px}
+  .wc-row{display:grid;grid-template-columns:84px 1fr auto;align-items:center;gap:10px;margin-bottom:12px}
+  .wc-row .lab{font-weight:700;font-size:.9rem;color:var(--ink)}
+  .wc-bar-bg{background:#f1ead9;border-radius:999px;height:26px;overflow:hidden}
+  .wc-bar{height:100%;border-radius:999px;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+  .wc-bar.cur-under{background:var(--blue)}
+  .wc-bar.cur-normal{background:var(--green)}
+  .wc-bar.cur-over{background:var(--amber)}
+  .wc-bar.std{background:repeating-linear-gradient(45deg,#cdbf9f,#cdbf9f 7px,#dccfae 7px,#dccfae 14px)}
+  .wc-row .val{font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.05rem;min-width:64px;text-align:right}
+  .wc-row .val small{font-size:.72rem;color:var(--ink-soft);font-weight:600}
+
+  /* ---------- 衛教 ---------- */
+  details.edu{
+    background:var(--paper);border:1px solid var(--line);border-radius:16px;
+    margin-bottom:12px;overflow:hidden;
+  }
+  details.edu summary{
+    cursor:pointer;list-style:none;padding:16px 20px;font-weight:700;font-size:1.05rem;
+    color:var(--green-deep);display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  details.edu summary::-webkit-details-marker{display:none}
+  details.edu summary .arr{transition:.25s;color:var(--ink-soft)}
+  details.edu[open] summary .arr{transform:rotate(180deg)}
+  details.edu .body{padding:0 20px 20px;color:var(--ink);font-size:.95rem}
+  details.edu .body p{margin-bottom:10px}
+  details.edu .body ul{margin:6px 0 10px;padding-left:20px}
+  details.edu .body li{margin-bottom:6px}
+
+  table.bmi{width:100%;border-collapse:collapse;margin:6px 0;font-size:.92rem}
+  table.bmi th,table.bmi td{padding:9px 10px;border:1px solid var(--line);text-align:center}
+  table.bmi th{background:var(--green-soft);color:var(--green-deep);font-weight:700}
+  table.bmi td:first-child{font-weight:700}
+  .chip{display:inline-block;width:13px;height:13px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+
+  .exch{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  .exch .e{background:#faf4e6;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:.9rem}
+  .exch .e b{color:var(--green-deep)}
+
+  .warnbox{
+    background:var(--amber-soft);border:1px solid #ecd49a;border-radius:14px;
+    padding:16px 18px;font-size:.9rem;color:#7a5512;display:flex;gap:12px;align-items:flex-start;
+  }
+  .warnbox svg{flex:none;width:22px;height:22px;margin-top:2px}
+
+  /* ===== 衛教示意圖 ===== */
+  /* ① BMI 色帶 + 人形 */
+  .bmi-figs{display:flex;justify-content:space-around;align-items:flex-end;gap:6px;margin:14px 0 10px}
+  .bmi-figs .bf{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+  .bmi-figs .bf svg{width:46px;height:62px}
+  .bmi-figs .bf span{font-weight:700;font-size:.86rem;color:var(--ink)}
+  .bmi-band{display:flex;height:30px;border-radius:8px;overflow:hidden;margin-top:4px;box-shadow:inset 0 1px 3px rgba(0,0,0,.12)}
+  .bmi-band .bb{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.78rem}
+  .bmi-band-wrap{position:relative;padding-top:34px}
+  .edu-mark{position:absolute;top:0;left:0;transform:translateX(-50%);transition:left 1s cubic-bezier(.2,.8,.2,1);opacity:0;pointer-events:none}
+  .edu-mark.show{opacity:1}
+  .edu-mark .em-bub{background:var(--ink);color:#fff;font-weight:900;font-family:"Noto Serif TC",serif;font-size:.92rem;padding:3px 11px;border-radius:9px;white-space:nowrap;text-align:center}
+  .edu-mark .em-pin{width:0;height:0;margin:0 auto;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid var(--ink)}
+  .bmi-figs .bf{transition:transform .3s, opacity .3s}
+  .bmi-figs .bf.dim{opacity:.32}
+  .bmi-figs .bf.on{transform:translateY(-4px) scale(1.08)}
+  .bmi-figs .bf.on span{color:var(--green-deep);font-weight:900}
+  .edu-hint{font-size:.84rem;color:var(--ink-soft);margin-top:18px}
+  .edu-hint.done{color:var(--green-deep);font-weight:600}
+  .bmi-ticks{position:relative;height:18px;margin-top:5px;font-size:.74rem;color:var(--ink-soft)}
+  .bmi-ticks span{position:absolute;transform:translateX(-50%);font-weight:600}
+
+  /* ② 蛋白質 */
+  .pf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+  .pf{background:var(--green-soft);border-radius:14px;padding:14px 6px;text-align:center;font-weight:700;font-size:.86rem;color:var(--green-deep)}
+  .pf-ic{display:grid;place-items:center;width:40px;height:40px;margin:0 auto 6px;border-radius:12px;background:#fff;color:var(--green)}
+  .pf-ic svg{width:23px;height:23px}
+  .src-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}
+  .src{background:#f7e6e0;border-radius:14px;padding:10px 6px 8px;width:74px;text-align:center}
+  .src svg{width:42px;height:42px;display:block;margin:0 auto}
+  .src span{display:block;font-weight:700;font-size:.84rem;margin-top:4px;color:var(--ink)}
+
+  /* ③ 熱量視覺公式 */
+  .kcal-formula{display:flex;align-items:stretch;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .kf-box{flex:1;min-width:90px;background:#fff;border:1.5px solid var(--line);border-radius:14px;
+    padding:14px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+  .kf-box .kf-t{font-weight:700;font-size:.95rem;color:var(--ink)}
+  .kf-box .kf-s{font-size:.74rem;color:var(--ink-soft)}
+  .kf-box.kf-res{background:var(--amber-soft);border-color:#ecd49a;color:var(--amber)}
+  .kf-box.kf-res svg{width:24px;height:24px;margin-bottom:2px}
+  .kf-box.kf-res .kf-t{color:#b06a16}
+  .kf-op{display:flex;align-items:center;font-family:"Noto Serif TC",serif;font-weight:900;font-size:1.5rem;color:var(--ink-soft)}
+  .act-figs{display:flex;gap:10px;margin-top:10px}
+  .af{flex:1;background:#f1ead9;border-radius:14px;padding:12px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--green-deep)}
+  .af svg{width:46px;height:40px}
+  .af b{font-size:.95rem}
+  .af span{font-size:.76rem;color:var(--ink-soft);font-weight:500}
+
+  /* ⑤ 我的餐盤 */
+  .plate-vis{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .plate-svg{width:230px;max-width:60vw;flex:none;display:block;margin:0 auto}
+  .plate-legend{flex:1;min-width:200px;display:flex;flex-direction:column;gap:7px}
+  .plate-legend .pl{display:flex;align-items:center;gap:9px;font-size:.9rem;color:var(--ink)}
+  .plate-legend .pl b{color:var(--green-deep);white-space:pre;letter-spacing:.05em}
+  .plate-legend .pd{width:15px;height:15px;border-radius:5px;flex:none}
+
+  footer{
+    text-align:center;color:var(--ink-soft);font-size:.85rem;margin-top:34px;padding-top:20px;
+    border-top:1px dashed var(--line);
+  }
+  footer .cr{font-weight:700;color:var(--green-deep)}
+
+  @media (max-width:560px){
+    .grid2{grid-template-columns:1fr}
+    .metrics{grid-template-columns:1fr}
+    .foods{grid-template-columns:1fr 1fr}
+    .exch{grid-template-columns:1fr}
+    .pf-grid{grid-template-columns:1fr 1fr}
+    .plate-vis{flex-direction:column}
+    .plate-svg{max-width:78vw}
+    .kf-box{min-width:72px;padding:11px 5px}
+    .kf-box .kf-t{font-size:.84rem}
+    .plate-legend2{grid-template-columns:1fr}
+    .pl2 .pr{font-size:.74rem}
+  }
+
+  /* ---------- Print (A4) ---------- */
+  @media print{
+    body{background:#fff}
+    .wrap{max-width:100%;padding:0}
+    .card,details.edu{box-shadow:none;break-inside:avoid;border-color:#ccc}
+    .btn,.err,#calcCard .seg button:not(.on){-webkit-print-color-adjust:exact}
+    .noprint{display:none!important}
+    details.edu .body{display:block!important}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="org">
+      <img class="org-logo" id="hosLogo" src="data:image/png;base64,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" alt="臺北市立聯合醫院仁愛院區">
+      <div class="org-name">
+        <span class="org-l1">臺北市立聯合醫院</span>
+        <span class="org-l2">仁愛院區</span>
+      </div>
+    </div>
+    <div class="badge">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 2v6m0 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm0 8v6"/></svg>
+      營養衛教 ｜ 小學堂
+    </div>
+    <h1>BMI<span class="dot">·</span>標準體重<span class="dot">·</span>蛋白質計算</h1>
+    <p class="sub">輸入身高體重，立即了解體位、每日建議熱量與飲食份量</p>
+    <div class="rule"></div>
+  </header>
+
+  <!-- 輸入 -->
+  <section class="card noprint" id="calcCard">
+    <div class="card-title"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-4M9 3v4M15 3v4M7 11h2M11 11h2M15 11h2M7 15h2M11 15h6"/></svg></span>基本資料輸入</div>
+    <p class="card-desc">請選擇性別並填入身高、體重與活動程度。</p>
+
+    <div class="seg" id="sexSeg">
+      <button class="on" data-sex="M" onclick="setSex('M')">
+        <svg class="sx" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="14" r="6"/><path d="M14.5 9.5 20 4M20 4h-5M20 4v5"/></svg>
+        男性
+      </button>
+      <button data-sex="F" onclick="setSex('F')">
+        <svg class="sx" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M12 15v6M9 18h6"/></svg>
+        女性
+      </button>
+    </div>
+
+    <div class="grid2">
+      <div class="field">
+        <label>身高 <span>cm</span></label>
+        <div class="input-unit"><input id="h" type="number" inputmode="decimal" placeholder="170" min="80" max="230"><span class="u">cm</span></div>
+      </div>
+      <div class="field">
+        <label>體重 <span>kg</span></label>
+        <div class="input-unit"><input id="w" type="number" inputmode="decimal" placeholder="65" min="20" max="200"><span class="u">kg</span></div>
+      </div>
+      <div class="field full">
+        <label>活動程度</label>
+        <select id="act" onchange="updateHint()">
+          <option value="bed">臥床（活動量極少 / 長期臥床）</option>
+          <option value="light" selected>輕度活動（一般日常、可自行走動）</option>
+          <option value="mod">中度活動（經常走動、有運動習慣）</option>
+        </select>
+        <div class="act-hint" id="actHint"></div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="calc()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      開始計算
+    </button>
+    <div class="err" id="err"></div>
+  </section>
+
+  <!-- 結果 -->
+  <div id="results">
+    <section class="card">
+      <div class="card-title"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M7 14l3-3 3 3 5-5"/></svg></span>計算結果</div>
+      <p class="card-desc" id="resSummary"></p>
+      <div class="metrics">
+        <div class="metric lead">
+          <div class="k">身體質量指數 BMI</div>
+          <div class="v"><span class="big" id="bmiVal">–</span></div>
+          <div id="bmiBadge" class="bmi-badge b-normal">–</div>
+        </div>
+        <div class="metric">
+          <div class="k">標準體重</div>
+          <div class="v"><span class="big" id="stdW">–</span><span class="un">kg</span></div>
+          <div class="note" id="diffW"></div>
+        </div>
+        <div class="metric">
+          <div class="k">每日建議熱量</div>
+          <div class="v"><span class="big" id="kcalVal">–</span><span class="un">大卡</span></div>
+          <div class="note" id="kcalNote"></div>
+        </div>
+        <div class="metric">
+          <div class="k">每日蛋白質建議</div>
+          <div class="v"><span class="big" id="protVal">–</span><span class="un">克</span></div>
+          <div class="note">下限 × 1.2 ～ 上限 × 1.4</div>
+        </div>
+      </div>
+
+      <!-- BMI 刻度尺 -->
+      <div class="gauge-wrap">
+        <div class="gauge-zones">
+          <span style="flex:14">過輕</span>
+          <span style="flex:22">健康</span>
+          <span style="flex:12">過重</span>
+          <span style="flex:32">肥胖</span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-marker" id="gMark">
+            <div class="bub" id="gBub">–</div>
+            <div class="pin"></div>
+          </div>
+        </div>
+        <div class="gauge-ticks">
+          <span style="left:14%">18.5</span>
+          <span style="left:36%">24</span>
+          <span style="left:48%">27</span>
+          <span style="left:60%">30</span>
+          <span style="left:80%">35</span>
+        </div>
+      </div>
+
+      <!-- 體重對照 -->
+      <div class="wc">
+        <div class="wc-row">
+          <div class="lab">目前體重</div>
+          <div class="wc-bar-bg"><div class="wc-bar" id="wcCur"></div></div>
+          <div class="val"><span id="wcCurV">–</span><small> kg</small></div>
+        </div>
+        <div class="wc-row">
+          <div class="lab">標準體重</div>
+          <div class="wc-bar-bg"><div class="wc-bar std" id="wcStd"></div></div>
+          <div class="val"><span id="wcStdV">–</span><small> kg</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-title"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18M12 11V3M6 7l6-4 6 4M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/></svg></span>每日飲食份量建議</div>
+      <div class="plate-head">
+        <span class="lbl">對應熱量　</span><span class="kcal" id="plateKcal">–</span><span class="lbl"> 大卡</span>
+        <div class="lbl" id="plateNote"></div>
+      </div>
+      <div class="plate2-wrap">
+        <div class="plate2">
+          <div class="quad q-grain"><div class="qicons" id="bGrain"></div><div class="qlabel"><span class="qn">全榖雜糧</span><span class="qc"><b id="fGrain">–</b> 碗</span></div></div>
+          <div class="quad q-prot"><div class="qicons" id="bProt"></div><div class="qlabel"><span class="qn">豆魚蛋肉</span><span class="qc"><b id="fProt">–</b> 份</span></div></div>
+          <div class="quad q-veg"><div class="qicons" id="bVeg"></div><div class="qlabel"><span class="qn">蔬菜</span><span class="qc"><b id="fVeg">–</b> 份</span></div></div>
+          <div class="quad q-fruit"><div class="qicons" id="bFruit"></div><div class="qlabel"><span class="qn">水果</span><span class="qc"><b id="fFruit">–</b> 份</span></div></div>
+          <div class="plate2-line h"></div>
+          <div class="plate2-line v"></div>
+          <div class="plate2-center">今日<br>餐盤</div>
+        </div>
+      </div>
+      <div class="plate-legend2">
+        <div class="pl2"><span class="pd" style="background:#e07a2c"></span><b>全榖雜糧</b><span class="pr">1 碗 ≒ 一個家用飯碗</span></div>
+        <div class="pl2"><span class="pd" style="background:#cf7a52"></span><b>豆魚蛋肉</b><span class="pr">1 份 ≒ 1 顆蛋／1 兩肉魚</span></div>
+        <div class="pl2"><span class="pd" style="background:#3f7a52"></span><b>蔬　　菜</b><span class="pr">1 份 ≒ 煮熟約半碗</span></div>
+        <div class="pl2"><span class="pd" style="background:#d6453f"></span><b>水　　果</b><span class="pr">1 份 ≒ 約 1 個拳頭大</span></div>
+      </div>
+      <div class="plate-foot">盤面上每個插圖代表 <b>1 份（碗）</b>，看圖就知道今天大約要吃多少；<span style="white-space:nowrap">半個插圖＝半份。</span></div>
+    </section>
+  </div>
+
+  <!-- 衛教內容 -->
+  <section class="card">
+    <div class="card-title"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14M4 19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2M4 19h16M9 7h6M9 11h6"/></svg></span>營養衛教知識</div>
+    <p class="card-desc">點開下列主題，了解體位判讀與均衡飲食的重要觀念。</p>
+
+    <details class="edu" open>
+      <summary>① BMI 體位判讀標準（衛福部國民健康署）<span class="arr">▾</span></summary>
+      <div class="body">
+        <p>BMI ＝ 體重(公斤) ÷ 身高(公尺)²。數值落在下方哪一段，就是哪一種體位：</p>
+        <div class="bmi-figs">
+          <div class="bf" data-fig="under"><svg viewBox="0 0 48 72"><circle cx="24" cy="11" r="8" fill="#5b9bd5"/><ellipse cx="24" cy="46" rx="8" ry="24" fill="#5b9bd5"/></svg><span>過輕</span></div>
+          <div class="bf" data-fig="normal"><svg viewBox="0 0 48 72"><circle cx="24" cy="11" r="8" fill="#3f7a52"/><ellipse cx="24" cy="46" rx="12" ry="24" fill="#3f7a52"/></svg><span>健康</span></div>
+          <div class="bf" data-fig="over"><svg viewBox="0 0 48 72"><circle cx="24" cy="11" r="8" fill="#dd8a2f"/><ellipse cx="24" cy="46" rx="16" ry="24" fill="#dd8a2f"/></svg><span>過重</span></div>
+          <div class="bf" data-fig="obese"><svg viewBox="0 0 48 72"><circle cx="24" cy="11" r="8" fill="#c0512f"/><ellipse cx="24" cy="46" rx="21" ry="24" fill="#c0512f"/></svg><span>肥胖</span></div>
+        </div>
+        <div class="bmi-band-wrap">
+          <div class="edu-mark" id="eduMark"><div class="em-bub" id="eduBub">您的 BMI</div><div class="em-pin"></div></div>
+          <div class="bmi-band">
+            <div class="bb" style="flex:14;background:#5b9bd5">過輕</div>
+            <div class="bb" style="flex:22;background:#3f7a52">健康</div>
+            <div class="bb" style="flex:12;background:#dd8a2f">過重</div>
+            <div class="bb" style="flex:12;background:#d98a4a">輕度</div>
+            <div class="bb" style="flex:20;background:#c0512f">中度</div>
+            <div class="bb" style="flex:20;background:#8f2e1a">重度</div>
+          </div>
+        </div>
+        <div class="bmi-ticks">
+          <span style="left:0%">15</span><span style="left:14%">18.5</span><span style="left:36%">24</span>
+          <span style="left:48%">27</span><span style="left:60%">30</span><span style="left:80%">35</span><span style="left:100%">40+</span>
+        </div>
+        <p class="edu-hint" id="eduHint">先在上方完成計算，這裡就會標出您的 BMI 落點。</p>
+        <p style="font-size:.84rem;color:var(--ink-soft);margin-top:18px">※ 健康體位為 18.5～24。BMI 為篩檢工具，肌肉量高者或長者體組成不同，仍須由專業人員綜合評估。</p>
+      </div>
+    </details>
+
+    <details class="edu">
+      <summary>② 蛋白質為什麼重要？（特別是長輩）<span class="arr">▾</span></summary>
+      <div class="body">
+        <p>蛋白質是身體的「修復與建造材料」，幫我們做這些事：</p>
+        <div class="pf-grid">
+          <div class="pf"><span class="pf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 6v12M3.5 9v6M17.5 6v12M20.5 9v6M6.5 12h11"/></svg></span>維持肌肉</div>
+          <div class="pf"><span class="pf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="19" height="6" rx="3" transform="rotate(-40 12 12)"/><path d="M10.2 11.2v.01M13.8 12.8v.01M11.2 13.8v.01M12.8 10.2v.01"/></svg></span>修復傷口</div>
+          <div class="pf"><span class="pf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v5c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span>提升免疫</div>
+          <div class="pf"><span class="pf-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 14h6l-1 8 8-12h-6z"/></svg></span>補充體力</div>
+        </div>
+
+        <p style="margin-top:18px">優質來源（建議平均分配於三餐）：</p>
+        <div class="src-row">
+          <div class="src"><svg viewBox="0 0 48 48"><path d="M24 9c8 0 14 8 14 16 0 6-6 9-14 9s-14-3-14-9C10 17 16 9 24 9z" fill="#fffdf6" stroke="#eadfca" stroke-width="1.5"/><circle cx="24" cy="25" r="7" fill="#f5b428"/><circle cx="21.5" cy="22.5" r="2.2" fill="#fdd56b"/></svg><span>蛋</span></div>
+          <div class="src"><svg viewBox="0 0 48 48"><path d="M7 24c6-8 18-11 27-7 0 0-2 5-2 7s2 7 2 7c-9 4-21 1-27-7z" fill="#7fb6cf"/><path d="M40 18l4-4c1 6 1 14 0 20l-4-4z" fill="#6aa3bd"/><circle cx="15" cy="22" r="1.8" fill="#28485a"/></svg><span>魚</span></div>
+          <div class="src"><svg viewBox="0 0 48 48"><path d="M22 10c6-3 14 1 14 9 0 5-4 8-4 12 0 3-2 5-5 5s-5-2-5-5c-3-2-7-4-9-9-2-6 3-10 9-12z" fill="#cf7a52"/><rect x="14" y="33" width="5" height="9" rx="2.5" fill="#efe6d0"/><path d="M19 35l-4 4" stroke="#cdbf9f" stroke-width="2" stroke-linecap="round"/></svg><span>肉</span></div>
+          <div class="src"><svg viewBox="0 0 48 48"><path d="M10 18l14-7 14 7-14 7z" fill="#fffdf6"/><path d="M10 18v13l14 7V25z" fill="#f3ecda"/><path d="M38 18v13l-14 7V25z" fill="#e9dfc6"/></svg><span>豆腐</span></div>
+          <div class="src"><svg viewBox="0 0 48 48"><path d="M16 12h16l-1 6H17z" fill="#dfe7ee"/><path d="M17 18h14l-1.5 22a2 2 0 0 1-2 2H20.5a2 2 0 0 1-2-2z" fill="#fff"/><path d="M18 26h12l-1 14a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1z" fill="#eaf1f7"/></svg><span>乳品</span></div>
+        </div>
+
+        <ul style="margin-top:16px">
+          <li>本工具建議範圍：體重每公斤 <b>1.2 ～ 1.4 克</b>。</li>
+          <li>長者、傷口照護或復健期間需求常較高，有助預防<b>肌少症</b>，可諮詢營養師調整。</li>
+          <li>慢性腎臟病等特殊狀況者，蛋白質量須遵<b>醫囑與營養師</b>指示，不宜自行增量。</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="edu">
+      <summary>③ 每日所需熱量怎麼算？<span class="arr">▾</span></summary>
+      <div class="body">
+        <p>每日所需熱量這樣估算：</p>
+        <div class="kcal-formula">
+          <div class="kf-box"><span class="kf-t">標準體重</span><span class="kf-s">公斤</span></div>
+          <span class="kf-op">×</span>
+          <div class="kf-box"><span class="kf-t">活動量係數</span><span class="kf-s">大卡/公斤</span></div>
+          <span class="kf-op">=</span>
+          <div class="kf-box kf-res"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3-1 4-1 6 0 1 1 2 2 1 1 4-1 5-1 5 4-1 5-5 4-8-1 3-2 1-2-1 0-2-1-3-2-3zm-1 9c-2 1-3 3-3 5a4 4 0 0 0 8 0c0-1-1-2-1-2-1 2-2 1-2 0 0-2-1-2-2-3z"/></svg><span class="kf-t">每日熱量</span></div>
+        </div>
+
+        <p style="margin-top:16px">活動量分三級，請依長輩平日狀況選擇：</p>
+        <div class="act-figs">
+          <div class="af"><svg viewBox="0 0 56 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="20" r="5"/><path d="M19 24h26M9 30h38"/></svg><b>臥床</b><span>活動極少</span></div>
+          <div class="af"><svg viewBox="0 0 40 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="8" r="5"/><path d="M20 15l-2 11M18 26l-5 14M18 26l7 12M19 19l-9 4M19 19l10 3"/></svg><b>輕度</b><span>可自行走動</span></div>
+          <div class="af"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="28" cy="8" r="5"/><path d="M26 14l-4 10 8 5-3 13M22 24l-12 3M30 29l8 4M22 17l11-2"/></svg><b>中度</b><span>常走動或運動</span></div>
+        </div>
+
+        <table class="bmi" style="margin-top:16px">
+          <tr><th>活動量</th><th>體重過輕</th><th>體重正常</th><th>體重過重</th></tr>
+          <tr><td>臥床</td><td>30</td><td>25</td><td>20</td></tr>
+          <tr><td>輕度</td><td>35</td><td>30</td><td>25</td></tr>
+          <tr><td>中度</td><td>40</td><td>40</td><td>30</td></tr>
+        </table>
+        <p style="font-size:.84rem;color:var(--ink-soft);margin-top:8px">標準體重公式：男性〔身高cm−80〕×70%；女性〔身高cm−70〕×60%。</p>
+      </div>
+    </details>
+
+    <details class="edu">
+      <summary>④ 份量代換小知識<span class="arr">▾</span></summary>
+      <div class="body">
+        <p>「份」是計算營養的單位，認識代換能更靈活搭配飲食：</p>
+        <div class="exch">
+          <div class="e"><b>蛋白質</b> 1 份 = 7 克蛋白質 ≒ 75 大卡</div>
+          <div class="e"><b>全榖雜糧</b> 1 份 ≒ 70 大卡 ≒ ¼ 碗白飯</div>
+          <div class="e"><b>蔬菜</b> 1 份 ≒ 25 大卡 = 100 公克 = ½ 碗</div>
+          <div class="e"><b>水果</b> 1 份 ≒ 60 大卡 = ½ 碗</div>
+        </div>
+        <p style="margin-top:10px">※ 此處「碗」以 <b>240 cc</b> 標準碗為準。</p>
+      </div>
+    </details>
+
+    <details class="edu">
+      <summary>⑤ 均衡飲食原則（我的餐盤）<span class="arr">▾</span></summary>
+      <div class="body">
+        <p>把一天要吃的食物想像成一個餐盤，照著比例和口訣吃就均衡：</p>
+        <div class="plate-vis">
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" class="plate-svg"><circle cx="130" cy="130" r="123" fill="none" stroke="#e8ddc8" stroke-width="6"/><path d="M130 130 L130.00 12.00 A118 118 0 0 1 246.21 109.51 Z" fill="#e3a93f" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L246.21 109.51 A118 118 0 0 1 158.55 244.49 Z" fill="#4f9a52" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L158.55 244.49 A118 118 0 0 1 48.03 214.88 Z" fill="#d97a5f" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L48.03 214.88 A118 118 0 0 1 13.15 113.58 Z" fill="#c76b97" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L13.15 113.58 A118 118 0 0 1 67.47 29.93 Z" fill="#5b9bd5" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L67.47 29.93 A118 118 0 0 1 130.00 12.00 Z" fill="#b08d57" stroke="#fffdf8" stroke-width="2.5"/><circle cx="130" cy="130" r="30" fill="#fffdf8" stroke="#e8ddc8" stroke-width="2"/><text x="130" y="126" text-anchor="middle" font-family="Noto Serif TC,serif" font-weight="900" font-size="14" fill="#3f7a52">我的</text><text x="130" y="143" text-anchor="middle" font-family="Noto Serif TC,serif" font-weight="900" font-size="14" fill="#3f7a52">餐盤</text><text x="177.0" y="79.0" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">全榖</text><text x="191.4" y="174.8" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">蔬菜</text><text x="111.1" y="198.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="13" fill="#fff">豆魚</text><text x="111.1" y="213.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="13" fill="#fff">蛋肉</text><text x="60.8" y="158.8" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">水果</text><text x="68.6" y="95.2" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">乳品</text><text x="109.8" y="64.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">油脂</text></svg>
+          <div class="plate-legend">
+            <div class="pl"><span class="pd" style="background:#e3a93f"></span><b>全榖雜糧</b>飯跟蔬菜一樣多</div>
+            <div class="pl"><span class="pd" style="background:#4f9a52"></span><b>蔬　　菜</b>菜比水果多一點</div>
+            <div class="pl"><span class="pd" style="background:#d97a5f"></span><b>豆魚蛋肉</b>每餐一掌心大小</div>
+            <div class="pl"><span class="pd" style="background:#c76b97"></span><b>水　　果</b>每餐一個拳頭大</div>
+            <div class="pl"><span class="pd" style="background:#5b9bd5"></span><b>乳　　品</b>早晚各一杯奶</div>
+            <div class="pl"><span class="pd" style="background:#b08d57"></span><b>油脂堅果</b>堅果種子一茶匙</div>
+          </div>
+        </div>
+        <p style="margin-top:14px;font-size:.88rem;color:var(--ink-soft)">小提醒：以白開水取代含糖飲料，少油炸、少加工、多選原型食物。</p>
+      </div>
+    </details>
+  </section>
+
+  <div class="warnbox">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+    <div>本計算結果僅供<b>營養衛教參考</b>，不能取代專業醫療診斷。實際熱量與營養需求會因疾病、用藥、活動量及代謝狀況而異，個別化建議請諮詢您的<b>醫師或營養師</b>。</div>
+  </div>
+
+  <footer>
+    <div class="cr">臺北市立聯合醫院仁愛院區 ｜ 營養衛教</div>
+    <div style="margin-top:4px">營養計算小學堂 ｜ BMI・標準體重・蛋白質・熱量</div>
+  </footer>
+
+</div>
+
+<script>
+  var sex = 'M';
+
+  var MULT = {
+    bed:   {under:30, normal:25, over:20},
+    light: {under:35, normal:30, over:25},
+    mod:   {under:40, normal:40, over:30}
+  };
+  var ACT_LABEL = {bed:'臥床', light:'輕度活動', mod:'中度活動'};
+  var ACT_HINT = {
+    bed:'熱量係數較低，適用長期臥床或活動量極少者。',
+    light:'最常見的設定，適用能自行走動的一般日常生活。',
+    mod:'熱量係數較高，適用經常走動或有規律運動者。'
+  };
+
+  // 熱量級距對應的飲食份量
+  var PORTIONS = [
+    {kcal:1200, grain:1.5, prot:3, veg:3, fruit:2},
+    {kcal:1500, grain:2.5, prot:4, veg:3, fruit:2},
+    {kcal:1800, grain:3,   prot:5, veg:3, fruit:2},
+    {kcal:2000, grain:3,   prot:6, veg:4, fruit:3},
+    {kcal:2200, grain:3.5, prot:6, veg:4, fruit:3.5},
+    {kcal:2500, grain:4,   prot:7, veg:5, fruit:4},
+    {kcal:2700, grain:4,   prot:8, veg:5, fruit:4}
+  ];
+
+  function setSex(s){
+    sex = s;
+    var btns = document.querySelectorAll('#sexSeg button');
+    for(var i=0;i<btns.length;i++){
+      var on = btns[i].getAttribute('data-sex')===s;
+      btns[i].className = on ? (s==='F'?'on f':'on') : '';
+    }
+  }
+
+  function updateHint(){
+    var a = document.getElementById('act').value;
+    document.getElementById('actHint').textContent = ACT_HINT[a];
+  }
+
+  function bmiCategory(bmi){
+    if(bmi < 18.5) return {label:'體重過輕', cls:'b-under', key:'under'};
+    if(bmi < 24)   return {label:'健康體位', cls:'b-normal', key:'normal'};
+    if(bmi < 27)   return {label:'體重過重', cls:'b-over', key:'over'};
+    if(bmi < 30)   return {label:'輕度肥胖', cls:'b-obese', key:'over'};
+    if(bmi < 35)   return {label:'中度肥胖', cls:'b-obese', key:'over'};
+    return {label:'重度肥胖', cls:'b-obese', key:'over'};
+  }
+
+  function nearestPortion(kcal){
+    var best = PORTIONS[0], bestD = Math.abs(kcal - PORTIONS[0].kcal);
+    for(var i=1;i<PORTIONS.length;i++){
+      var d = Math.abs(kcal - PORTIONS[i].kcal);
+      if(d < bestD){ bestD = d; best = PORTIONS[i]; }
+    }
+    return best;
+  }
+
+  function fmt(n){
+    // 去除多餘小數
+    return (Math.round(n*10)/10).toString();
+  }
+
+  // 食物插畫（SVG，非 emoji）
+  var ICON = {
+    grain:'<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+      +'<ellipse cx="24" cy="40" rx="13" ry="3" fill="rgba(0,0,0,.06)"/>'
+      +'<path d="M11 24h26a13 13 0 0 1-26 0z" fill="#e07a2c"/>'
+      +'<path d="M11 24h26a13 13 0 0 0-26 0z" fill="#fff6e8"/>'
+      +'<path d="M14 23c2-4 5-6 10-6s8 2 10 6z" fill="#fffdf8"/>'
+      +'<rect x="9" y="22" width="30" height="4" rx="2" fill="#c5621c"/>'
+      +'<circle cx="19" cy="20" r="1.1" fill="#e7d8b8"/><circle cx="24" cy="18.5" r="1.1" fill="#e7d8b8"/><circle cx="29" cy="20" r="1.1" fill="#e7d8b8"/>'
+      +'</svg>',
+    prot:'<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+      +'<ellipse cx="24" cy="40" rx="13" ry="3" fill="rgba(0,0,0,.06)"/>'
+      +'<path d="M24 11c9 0 15 7 15 15 0 5-6 7-15 7S9 31 9 26c0-8 6-15 15-15z" fill="#fffdf6" stroke="#eadfca" stroke-width="1.5"/>'
+      +'<circle cx="24" cy="24" r="7.5" fill="#f5b428"/>'
+      +'<circle cx="21.5" cy="21.5" r="2.4" fill="#fdd56b"/>'
+      +'</svg>',
+    veg:'<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+      +'<ellipse cx="24" cy="42" rx="11" ry="2.5" fill="rgba(0,0,0,.06)"/>'
+      +'<rect x="21.5" y="26" width="5" height="14" rx="2.5" fill="#b6d39a"/>'
+      +'<circle cx="16" cy="20" r="7" fill="#4f9a52"/><circle cx="24" cy="15" r="8" fill="#3f7a52"/>'
+      +'<circle cx="32" cy="20" r="7" fill="#4f9a52"/><circle cx="21" cy="23" r="6.5" fill="#5aa75d"/>'
+      +'<circle cx="28" cy="23" r="6" fill="#458a4a"/>'
+      +'</svg>',
+    fruit:'<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+      +'<ellipse cx="24" cy="42" rx="11" ry="2.5" fill="rgba(0,0,0,.06)"/>'
+      +'<path d="M24 14c-2-2-5-2-7 0-3 3-3 10 0 16 2 4 5 6 7 6s5-2 7-6c3-6 3-13 0-16-2-2-5-2-7 0z" fill="#d6453f"/>'
+      +'<path d="M24 14c-1.5-1.5-3.5-1.8-5.2-.9 1.4 4 1.6 11-.3 17 1.4 2.4 3.5 3.9 5.5 3.9z" fill="#e6655f"/>'
+      +'<rect x="23" y="9" width="2.5" height="6" rx="1.2" fill="#7a5230"/>'
+      +'<path d="M25 11c3-3 7-2 7-2s-1 5-7 4z" fill="#5aa75d"/>'
+      +'</svg>',
+    fish:'<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+      +'<ellipse cx="24" cy="42" rx="11" ry="2.5" fill="rgba(0,0,0,.06)"/>'
+      +'<path d="M6 24c6-8 18-11 27-7 0 0-2 5-2 7s2 7 2 7c-9 4-21 1-27-7z" fill="#7fb6cf"/>'
+      +'<path d="M40 18l4-4c1 6 1 14 0 20l-4-4z" fill="#6aa3bd"/>'
+      +'<circle cx="14" cy="22" r="1.8" fill="#28485a"/>'
+      +'</svg>',
+    meat:'<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+      +'<ellipse cx="24" cy="43" rx="10" ry="2.5" fill="rgba(0,0,0,.06)"/>'
+      +'<path d="M23 9c6-3 14 1 14 9 0 5-4 8-4 12 0 3-2 5-5 5s-5-2-5-5c-3-2-7-4-9-9-2-6 3-10 9-12z" fill="#cf7a52"/>'
+      +'<rect x="13" y="33" width="5" height="9" rx="2.5" fill="#efe6d0"/>'
+      +'</svg>',
+    tofu:'<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">'
+      +'<ellipse cx="24" cy="42" rx="11" ry="2.5" fill="rgba(0,0,0,.06)"/>'
+      +'<path d="M10 17l14-7 14 7-14 7z" fill="#fffdf6"/>'
+      +'<path d="M10 17v14l14 7V24z" fill="#f0e8d2"/>'
+      +'<path d="M38 17v14l-14 7V24z" fill="#e6dcc0"/>'
+      +'</svg>'
+  };
+
+  // 依份量產生插圖（半份顯示半個插圖）；key 可為字串或陣列（陣列時輪流使用）
+  function renderIcons(id, key, count){
+    var el = document.getElementById(id);
+    el.innerHTML = '';
+    var keys = (typeof key === 'string') ? [key] : key;
+    var full = Math.floor(count + 1e-9);
+    var hasHalf = (count - full) >= 0.5;
+    var idx = 0;
+    function add(half){
+      var s = document.createElement('span');
+      s.className = 'ci' + (half?' half':'');
+      s.style.animationDelay = (idx*0.05) + 's';
+      s.innerHTML = ICON[keys[idx % keys.length]];
+      el.appendChild(s);
+      idx++;
+    }
+    for(var i=0;i<full;i++){ add(false); }
+    if(hasHalf){ add(true); }
+  }
+
+  function calc(){
+    var err = document.getElementById('err');
+    err.style.display='none';
+    var h = parseFloat(document.getElementById('h').value);
+    var w = parseFloat(document.getElementById('w').value);
+    var act = document.getElementById('act').value;
+
+    if(!h || !w || h<=0 || w<=0){
+      err.textContent='請輸入有效的身高與體重。';
+      err.style.display='block';
+      return;
+    }
+    if(h<80 || h>230 || w<20 || w>200){
+      err.textContent='數值超出合理範圍，請確認身高（80–230cm）與體重（20–200kg）。';
+      err.style.display='block';
+      return;
+    }
+
+    var hm = h/100;
+    var bmi = w/(hm*hm);
+    var cat = bmiCategory(bmi);
+
+    // 標準體重
+    var stdW = sex==='M' ? (h-80)*0.7 : (h-70)*0.6;
+
+    // 熱量 = 標準體重 × 係數
+    var coef = MULT[act][cat.key];
+    var kcal = stdW * coef;
+
+    // 蛋白質（依目前體重）
+    var pLow = w*1.2, pHigh = w*1.4;
+
+    // 飲食份量（取最接近級距）
+    var p = nearestPortion(kcal);
+
+    // ----- 寫入畫面 -----
+    document.getElementById('bmiVal').textContent = fmt(Math.round(bmi*10)/10);
+    var badge = document.getElementById('bmiBadge');
+    badge.textContent = cat.label;
+    badge.className = 'bmi-badge ' + cat.cls;
+
+    document.getElementById('stdW').textContent = fmt(stdW);
+    var diff = w - stdW;
+    var diffEl = document.getElementById('diffW');
+    if(Math.abs(diff)<0.5){ diffEl.textContent='與目前體重相當'; }
+    else if(diff>0){ diffEl.textContent='目前體重多 '+fmt(Math.abs(diff))+' kg'; }
+    else { diffEl.textContent='目前體重少 '+fmt(Math.abs(diff))+' kg'; }
+
+    document.getElementById('kcalVal').textContent = Math.round(kcal);
+    document.getElementById('kcalNote').textContent = ACT_LABEL[act]+'｜'+coef+' 大卡/kg';
+
+    document.getElementById('protVal').textContent = Math.round(pLow)+'～'+Math.round(pHigh);
+
+    document.getElementById('plateKcal').textContent = p.kcal;
+    document.getElementById('plateNote').textContent =
+      '（以最接近您建議熱量 '+Math.round(kcal)+' 大卡的級距估算）';
+    document.getElementById('fGrain').textContent = fmt(p.grain);
+    document.getElementById('fProt').textContent  = fmt(p.prot);
+    document.getElementById('fVeg').textContent   = fmt(p.veg);
+    document.getElementById('fFruit').textContent = fmt(p.fruit);
+
+    // BMI 刻度尺指針（範圍 15–40 對應 0–100%）
+    var bmiClamp = Math.max(15, Math.min(40, bmi));
+    var gPct = (bmiClamp - 15) / 25 * 100;
+    var gMark = document.getElementById('gMark');
+    document.getElementById('gBub').textContent = fmt(Math.round(bmi*10)/10);
+    setTimeout(function(){ gMark.style.left = gPct + '%'; }, 80);
+
+    // 衛教 BMI 色帶落點（同步顯示個人 BMI 位置 + 高亮對應人形）
+    var eduMark = document.getElementById('eduMark');
+    document.getElementById('eduBub').textContent = 'BMI ' + fmt(Math.round(bmi*10)/10);
+    setTimeout(function(){ eduMark.style.left = gPct + '%'; eduMark.className = 'edu-mark show'; }, 80);
+    var figKey = (bmi < 18.5) ? 'under' : (bmi < 24) ? 'normal' : (bmi < 27) ? 'over' : 'obese';
+    var figs = document.querySelectorAll('.bmi-figs .bf');
+    for(var fi=0; fi<figs.length; fi++){
+      var on = figs[fi].getAttribute('data-fig') === figKey;
+      figs[fi].className = 'bf ' + (on ? 'on' : 'dim');
+    }
+    var eduHint = document.getElementById('eduHint');
+    eduHint.textContent = '您的 BMI 為 ' + fmt(Math.round(bmi*10)/10) + '，落在「' + cat.label + '」範圍。';
+    eduHint.className = 'edu-hint done';
+
+
+    // 體重對照長條（以較大者為滿格基準）
+    var maxW = Math.max(w, stdW) * 1.08;
+    var curEl = document.getElementById('wcCur');
+    var stdEl = document.getElementById('wcStd');
+    curEl.className = 'wc-bar cur-' + cat.key;
+    document.getElementById('wcCurV').textContent = fmt(w);
+    document.getElementById('wcStdV').textContent = fmt(stdW);
+    curEl.style.width = '0'; stdEl.style.width = '0';
+    setTimeout(function(){
+      curEl.style.width = (w / maxW * 100) + '%';
+      stdEl.style.width = (stdW / maxW * 100) + '%';
+    }, 80);
+
+    // 份量插圖
+    renderIcons('bGrain', 'grain', p.grain);
+    renderIcons('bProt',  ['prot','fish','meat','tofu'], p.prot);
+    renderIcons('bVeg',   'veg',   p.veg);
+    renderIcons('bFruit', 'fruit', p.fruit);
+
+    document.getElementById('resSummary').textContent =
+      (sex==='M'?'男性':'女性')+'　身高 '+fmt(h)+' cm　體重 '+fmt(w)+' kg　'+ACT_LABEL[act];
+
+    var r = document.getElementById('results');
+    r.className='show';
+    r.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  // init
+  updateHint();
+
+  // 列印時自動展開所有衛教段落
+  window.addEventListener('beforeprint', function(){
+    var ds = document.querySelectorAll('details.edu');
+    for(var i=0;i<ds.length;i++){ ds[i].setAttribute('open',''); }
+  });
+</script>
+</body>
+</html>

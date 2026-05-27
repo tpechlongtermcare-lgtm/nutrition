@@ -393,6 +393,19 @@
   .plate-legend .pl b{color:var(--green-deep);white-space:pre;letter-spacing:.05em}
   .plate-legend .pd{width:15px;height:15px;border-radius:5px;flex:none}
 
+  /* 洗腎版 我的餐盤 */
+  .dia-head{display:inline-flex;align-items:center;gap:8px;background:var(--green-soft);
+    color:var(--green-deep);font-weight:700;font-size:.95rem;border-radius:999px;padding:6px 16px;margin-bottom:10px}
+  .dia-head .dot{width:11px;height:11px;border-radius:50%;flex:none}
+  .dia-legend{flex:1;min-width:230px;display:flex;flex-direction:column;gap:9px}
+  .dia-legend .dl{display:flex;gap:9px;align-items:flex-start;font-size:.88rem;line-height:1.5}
+  .dia-legend .dl .pd{width:14px;height:14px;border-radius:5px;flex:none;margin-top:4px}
+  .dia-legend .dl b{color:var(--green-deep)}
+  .dia-note{display:flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--green);color:#fff;font-weight:700;font-size:.9rem;
+    border-radius:999px;padding:11px 18px;margin-top:14px}
+  .dia-note svg{width:18px;height:18px;flex:none}
+
   footer{
     text-align:center;color:var(--ink-soft);font-size:.85rem;margin-top:34px;padding-top:20px;
     border-top:1px dashed var(--line);
@@ -633,7 +646,7 @@
           <div class="src"><svg viewBox="0 0 48 48"><path d="M7 24c6-8 18-11 27-7 0 0-2 5-2 7s2 7 2 7c-9 4-21 1-27-7z" fill="#7fb6cf"/><path d="M40 18l4-4c1 6 1 14 0 20l-4-4z" fill="#6aa3bd"/><circle cx="15" cy="22" r="1.8" fill="#28485a"/></svg><span>魚</span></div>
           <div class="src"><svg viewBox="0 0 48 48"><path d="M22 10c6-3 14 1 14 9 0 5-4 8-4 12 0 3-2 5-5 5s-5-2-5-5c-3-2-7-4-9-9-2-6 3-10 9-12z" fill="#cf7a52"/><rect x="14" y="33" width="5" height="9" rx="2.5" fill="#efe6d0"/><path d="M19 35l-4 4" stroke="#cdbf9f" stroke-width="2" stroke-linecap="round"/></svg><span>肉</span></div>
           <div class="src"><svg viewBox="0 0 48 48"><path d="M10 18l14-7 14 7-14 7z" fill="#fffdf6"/><path d="M10 18v13l14 7V25z" fill="#f3ecda"/><path d="M38 18v13l-14 7V25z" fill="#e9dfc6"/></svg><span>豆腐</span></div>
-          <div class="src"><svg viewBox="0 0 48 48"><path d="M16 12h16l-1 6H17z" fill="#dfe7ee"/><path d="M17 18h14l-1.5 22a2 2 0 0 1-2 2H20.5a2 2 0 0 1-2-2z" fill="#fff"/><path d="M18 26h12l-1 14a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1z" fill="#eaf1f7"/></svg><span>乳品</span></div>
+          <div class="src"><svg viewBox="0 0 48 48"><path d="M16 12h16l-1 6H17z" fill="#dfe7ee"/><path d="M17 18h14l-1.5 22a2 2 0 0 1-2 2H20.5a2 2 0 0 1-2-2z" fill="#fff"/><path d="M18 26h12l-1 14a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1z" fill="#eaf1f7"/></svg><span>配方乳品</span></div>
         </div>
 
         <ul style="margin-top:16px">
@@ -688,21 +701,41 @@
     </details>
 
     <details class="edu">
-      <summary>⑤ 均衡飲食原則（我的餐盤）<span class="arr">▾</span></summary>
+      <summary>⑤ 均衡飲食原則（我的餐盤・洗腎適用）<span class="arr">▾</span></summary>
       <div class="body">
-        <p>把一天要吃的食物想像成一個餐盤，照著比例和口訣吃就均衡：</p>
+        <p>把一天要吃的食物想像成一個餐盤；洗腎病人需特別留意<b>磷、鉀、鈉與水分</b>，請依透析方式參考：</p>
+
+        <div class="dia-head"><span class="dot" style="background:#c0512f"></span>血液透析（HD）適用</div>
         <div class="plate-vis">
-          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" class="plate-svg"><circle cx="130" cy="130" r="123" fill="none" stroke="#e8ddc8" stroke-width="6"/><path d="M130 130 L130.00 12.00 A118 118 0 0 1 246.21 109.51 Z" fill="#e3a93f" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L246.21 109.51 A118 118 0 0 1 158.55 244.49 Z" fill="#4f9a52" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L158.55 244.49 A118 118 0 0 1 48.03 214.88 Z" fill="#d97a5f" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L48.03 214.88 A118 118 0 0 1 13.15 113.58 Z" fill="#c76b97" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L13.15 113.58 A118 118 0 0 1 67.47 29.93 Z" fill="#5b9bd5" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L67.47 29.93 A118 118 0 0 1 130.00 12.00 Z" fill="#b08d57" stroke="#fffdf8" stroke-width="2.5"/><circle cx="130" cy="130" r="30" fill="#fffdf8" stroke="#e8ddc8" stroke-width="2"/><text x="130" y="126" text-anchor="middle" font-family="Noto Serif TC,serif" font-weight="900" font-size="14" fill="#3f7a52">我的</text><text x="130" y="143" text-anchor="middle" font-family="Noto Serif TC,serif" font-weight="900" font-size="14" fill="#3f7a52">餐盤</text><text x="177.0" y="79.0" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">全榖</text><text x="191.4" y="174.8" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">蔬菜</text><text x="111.1" y="198.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="13" fill="#fff">豆魚</text><text x="111.1" y="213.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="13" fill="#fff">蛋肉</text><text x="60.8" y="158.8" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">水果</text><text x="68.6" y="95.2" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">乳品</text><text x="109.8" y="64.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="15" fill="#fff">油脂</text></svg>
-          <div class="plate-legend">
-            <div class="pl"><span class="pd" style="background:#e3a93f"></span><b>全榖雜糧</b>飯跟蔬菜一樣多</div>
-            <div class="pl"><span class="pd" style="background:#4f9a52"></span><b>蔬　　菜</b>菜比水果多一點</div>
-            <div class="pl"><span class="pd" style="background:#d97a5f"></span><b>豆魚蛋肉</b>每餐一掌心大小</div>
-            <div class="pl"><span class="pd" style="background:#c76b97"></span><b>水　　果</b>每餐一個拳頭大</div>
-            <div class="pl"><span class="pd" style="background:#5b9bd5"></span><b>乳　　品</b>早晚各一杯奶</div>
-            <div class="pl"><span class="pd" style="background:#b08d57"></span><b>油脂堅果</b>堅果種子一茶匙</div>
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" class="plate-svg"><circle cx="130" cy="130" r="123" fill="none" stroke="#e8ddc8" stroke-width="6"/><path d="M130 130 L130.00 12.00 A118 118 0 0 1 246.21 109.51 Z" fill="#e3a93f" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L246.21 109.51 A118 118 0 0 1 158.55 244.49 Z" fill="#4f9a52" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L158.55 244.49 A118 118 0 0 1 48.03 214.88 Z" fill="#d97a5f" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L48.03 214.88 A118 118 0 0 1 13.15 113.58 Z" fill="#c76b97" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L13.15 113.58 A118 118 0 0 1 67.47 29.93 Z" fill="#5b9bd5" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L67.47 29.93 A118 118 0 0 1 130.00 12.00 Z" fill="#b08d57" stroke="#fffdf8" stroke-width="2.5"/><circle cx="130" cy="130" r="30" fill="#fffdf8" stroke="#e8ddc8" stroke-width="2"/><text x="130" y="126" text-anchor="middle" font-family="Noto Serif TC,serif" font-weight="900" font-size="14" fill="#3f7a52">我的</text><text x="130" y="143" text-anchor="middle" font-family="Noto Serif TC,serif" font-weight="900" font-size="14" fill="#3f7a52">餐盤</text><text x="177.0" y="79.0" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="14" fill="#fff">全榖</text><text x="191.4" y="174.8" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="14" fill="#fff">蔬菜</text><text x="111.1" y="198.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#fff">豆魚</text><text x="111.1" y="212.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#fff">蛋肉</text><text x="60.8" y="158.8" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="14" fill="#fff">水果</text><text x="68.6" y="88.2" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#fff">低磷</text><text x="68.6" y="102.2" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#fff">乳品</text><text x="109.8" y="64.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="14" fill="#fff">油脂</text></svg>
+          <div class="dia-legend">
+            <div class="dl"><span class="pd" style="background:#e3a93f"></span><div><b>全榖雜糧</b> 選擇白飯、吐司等低鉀澱粉，適量攝取。</div></div>
+            <div class="dl"><span class="pd" style="background:#4f9a52"></span><div><b>蔬菜（低鉀為主）</b> 選低鉀蔬菜（高麗菜、冬瓜、白蘿蔔、絲瓜）；切小塊汆燙後再烹調，降低鉀含量。</div></div>
+            <div class="dl"><span class="pd" style="background:#d97a5f"></span><div><b>豆魚蛋肉</b> 依透析狀況適量攝取魚、雞、瘦肉、豆腐等優質蛋白質。</div></div>
+            <div class="dl"><span class="pd" style="background:#c76b97"></span><div><b>水果（低血鉀調整）</b> 依血鉀個別評估，避免高鉀水果，適量攝取。</div></div>
+            <div class="dl"><span class="pd" style="background:#5b9bd5"></span><div><b>低磷乳品（適量）</b> 選擇洗腎室配方乳品，適量攝取，避免高磷乳製品。</div></div>
+            <div class="dl"><span class="pd" style="background:#b08d57"></span><div><b>油脂與堅果（少量）</b> 減少堅果與油炸食品，避免高磷、高鉀食物。</div></div>
           </div>
         </div>
-        <p style="margin-top:14px;font-size:.88rem;color:var(--ink-soft)">小提醒：以白開水取代含糖飲料，少油炸、少加工、多選原型食物。</p>
+        <div class="dia-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>如有飲食問題，請諮詢營養師個別指導。</div>
+
+        <div class="dia-head" style="margin-top:26px"><span class="dot" style="background:#3f7fb0"></span>腹膜透析（PD）適用</div>
+        <div class="plate-vis">
+          <svg viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" class="plate-svg"><circle cx="130" cy="130" r="123" fill="none" stroke="#e8ddc8" stroke-width="6"/><path d="M130 130 L130.00 12.00 A118 118 0 0 1 246.21 109.51 Z" fill="#e3a93f" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L246.21 109.51 A118 118 0 0 1 158.55 244.49 Z" fill="#4f9a52" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L158.55 244.49 A118 118 0 0 1 48.03 214.88 Z" fill="#d97a5f" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L48.03 214.88 A118 118 0 0 1 13.15 113.58 Z" fill="#c76b97" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L13.15 113.58 A118 118 0 0 1 67.47 29.93 Z" fill="#5b9bd5" stroke="#fffdf8" stroke-width="2.5"/><path d="M130 130 L67.47 29.93 A118 118 0 0 1 130.00 12.00 Z" fill="#b08d57" stroke="#fffdf8" stroke-width="2.5"/><circle cx="130" cy="130" r="30" fill="#fffdf8" stroke="#e8ddc8" stroke-width="2"/><text x="130" y="126" text-anchor="middle" font-family="Noto Serif TC,serif" font-weight="900" font-size="14" fill="#3f7a52">我的</text><text x="130" y="143" text-anchor="middle" font-family="Noto Serif TC,serif" font-weight="900" font-size="14" fill="#3f7a52">餐盤</text><text x="177.0" y="79.0" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="14" fill="#fff">全榖</text><text x="191.4" y="174.8" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="14" fill="#fff">蔬菜</text><text x="111.1" y="198.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#fff">豆魚</text><text x="111.1" y="212.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#fff">蛋肉</text><text x="60.8" y="158.8" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="14" fill="#fff">水果</text><text x="68.6" y="88.2" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#fff">低磷</text><text x="68.6" y="102.2" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="12" fill="#fff">乳品</text><text x="109.8" y="64.7" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-weight="700" font-size="14" fill="#fff">油脂</text></svg>
+          <div class="dia-legend">
+            <div class="dl"><span class="pd" style="background:#e3a93f"></span><div><b>全榖雜糧</b> 選擇白飯、吐司與澱粉類，適量攝取。</div></div>
+            <div class="dl"><span class="pd" style="background:#4f9a52"></span><div><b>蔬菜（依個人需求）</b> 選擇新鮮蔬菜，依需求適量；切小塊汆燙後再烹調，降低鉀含量。</div></div>
+            <div class="dl"><span class="pd" style="background:#d97a5f"></span><div><b>豆魚蛋肉</b> 適量攝取魚、雞、瘦肉、豆腐等優質蛋白質，維持營養與肌肉量。</div></div>
+            <div class="dl"><span class="pd" style="background:#c76b97"></span><div><b>水果（依個人需求）</b> 依需求與血鉀調整適量攝取，不需嚴格限制。</div></div>
+            <div class="dl"><span class="pd" style="background:#5b9bd5"></span><div><b>低磷乳品（適量）</b> 選擇低磷或配方乳品，適量攝取，避免高磷乳製品。</div></div>
+            <div class="dl"><span class="pd" style="background:#b08d57"></span><div><b>油脂與堅果（少量）</b> 少量使用植物油，減少堅果、油炸與加工食品。</div></div>
+          </div>
+        </div>
+        <div class="dia-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.7A8.4 8.4 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>如有飲食問題，請諮詢營養師個別指導。</div>
+
+        <p style="margin-top:18px;font-size:.86rem;color:#7a5512;background:var(--amber-soft);border:1px solid #ecd49a;border-radius:12px;padding:12px 14px">
+          <b>洗腎安全提醒：</b>請<b>完全避免楊桃</b>（對洗腎病人具神經毒性）；注意<b>水分控制</b>、少用<b>代鹽</b>（含鉀高）。磷、鉀、鈉與水分的個別限制量，請依貴院營養師指示。
+        </p>
       </div>
     </details>
   </section>
